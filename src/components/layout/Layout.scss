@@ -1,0 +1,12 @@
+.MuiDrawer-paperAnchorLeft {
+  min-width: 300px;
+
+  & .MuiListItem-button.active {
+    background-color: #007FFF;
+    color: #fff;
+
+    & svg {
+      fill: #fff
+    }
+  }
+}

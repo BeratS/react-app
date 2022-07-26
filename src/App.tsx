@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import Container from "@mui/material/Container";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.scss';
+import PrimarySearchAppBar from './components/navbar/Navbar';
+import Blogs from "./pages/blogs/Blogs";
+import Contact from "./pages/contact/Contact";
+import Home from "./pages/home/Home";
+import Products from "./pages/products/Products";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+
+        <PrimarySearchAppBar/>
+        
+        <Container maxWidth="md" style={{ backgroundColor: '#eee' }}>
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="blogs" element={<Blogs />} />
+              <Route path="products" element={<Products />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="*" element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here!</p>
+                </main>
+              } />
+            </Routes>
+        </Container>
+
+      </BrowserRouter>
     </div>
   );
 }
