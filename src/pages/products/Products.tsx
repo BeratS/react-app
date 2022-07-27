@@ -27,8 +27,11 @@ function Products() {
   }
 
   return (
-    <div id="app">
-      <input type="text" onChange={updateFilterHandler} />
+    <div id="products">
+      
+      <h2>Products Page - This is experimental component</h2>
+
+      <input type="text" value={filterTerm} onChange={updateFilterHandler} />
       {isPending && <p style={{color: 'white'}}>Updating List...</p>}
       <ProductList products={filteredProducts} />
     </div>
