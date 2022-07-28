@@ -1,25 +1,31 @@
-import Button from '@mui/material/Button';
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useEffect } from 'react';
 
-function MySnackBarQueue() {
-  const { enqueueSnackbar } = useSnackbar();
+function MySnackBarQueue({alertState}: any) {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const showSnackbar = (variant: VariantType) => () => {
-    // variant could be success, error, warning, info, or default
-    enqueueSnackbar('This is a success message!', { variant });
-  };
+  useEffect(() => {
+    if (alertState.type === 'clear') {
+      closeSnackbar();
+    } else if (alertState.msg?.length > 0) {
+      enqueueSnackbar(alertState.msg, { variant: alertState.type });
+    }
+  
+    return () => {
+      closeSnackbar();
+    }
+  }, [alertState, enqueueSnackbar, closeSnackbar]);
+  
 
   return (
-    <>
-      <Button onClick={showSnackbar('success')}>Show success snackbar</Button>
-    </>
+    <></>
   );
 }
 
-export default function SnackBarQueueProvider() {
+export default function SnackBarQueueProvider({ alertState }: any) {
   return (
     <SnackbarProvider maxSnack={3}>
-      <MySnackBarQueue />
+      <MySnackBarQueue alertState={alertState}/>
     </SnackbarProvider>
   );
 }

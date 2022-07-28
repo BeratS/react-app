@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-
 import useAxios from 'axios-hooks'
 import Button from "@mui/material/Button";
 
 const Home = () => {
 
-  const [{ data, loading, error }, refetch] = useAxios(
+  // const [{ data, loading, error }, refetch] = useAxios(
+  const [{ data }, refetch] = useAxios(
     'https://reqres.in/api/users?delay=1'
   )
 

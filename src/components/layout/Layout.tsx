@@ -38,7 +38,6 @@ const Layout = ({ onClick }: { onClick: () => void }) => {
     [location]
   );
 
-
   function ListItemLink(props: ListItemLinkProps) {
     const { icon, primary, to, active } = props;
   

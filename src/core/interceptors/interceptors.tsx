@@ -14,28 +14,36 @@
 // }
 
 import axios from 'axios';
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const instance = axios.create({
     baseURL:  "https://example.com"
 })
 
-const AxiosInterceptor = ({ children }: any) => {
+const AxiosInterceptor = ({ children, dispatchAlert }: any) => {
 
     const navigate = useNavigate();
 
     useEffect(() => {
 
+        console.log('INTERCEPTOR', instance);
+
         const resInterceptor = (response: any) => {
+            console.log('-***Interceptor response', response);
             return response;
         }
 
         const errInterceptor = (error: any) => {
-
+            console.log('-***Interceptor error', error);
             if (error.response.status === 401) {
                 navigate('/login');
             }
+
+            dispatchAlert({
+                type: 'error',
+                msg: 'Interceptor Error'
+            });
 
             return Promise.reject(error);
         }
@@ -45,11 +53,11 @@ const AxiosInterceptor = ({ children }: any) => {
 
         return () => instance.interceptors.response.eject(interceptor);
 
-    }, [navigate])
+    }, [navigate, dispatchAlert])
 
     return children;
 }
 
 
 export default instance;
-export { AxiosInterceptor }
+export { AxiosInterceptor };
