@@ -1,1 +1,1 @@
-https://github.com/Upstatement/react-router-guards/tree/main/demos/intermediate
+https://phrase.com/blog/posts/localizing-react-apps-with-i18next/

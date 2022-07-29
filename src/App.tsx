@@ -5,6 +5,7 @@ import './App.scss';
 import AppRouting from "./AppRouting";
 import PrimarySearchAppBar from './components/navbar/Navbar';
 import SnackBarQueueProvider from "./components/ui/queue-alert/QueueAlert";
+import { AuthProvider } from "./core/auth/auth-provider";
 import { AxiosInterceptor } from "./core/interceptors/interceptors";
 import { AlertReducer, IAlert } from "./reducers/Alert.Reducer";
 
@@ -15,17 +16,19 @@ function App() {
   return (
     <BrowserRouter>
       <AxiosInterceptor dispatchAlert={dispatch}>
-        <div className="App">
+        <AuthProvider>
+          <div className="App">
 
-          <PrimarySearchAppBar />
+            <PrimarySearchAppBar />
 
-          <Container maxWidth="md" style={{ backgroundColor: '#eee' }}>
-            <AppRouting />            
-          </Container>
+            <Container maxWidth="md" style={{ backgroundColor: '#eee' }}>
+              <AppRouting />            
+            </Container>
 
-          <SnackBarQueueProvider alertState={alertState} />
+            <SnackBarQueueProvider alertState={alertState} />
 
-        </div>
+          </div>
+        </AuthProvider>
       </AxiosInterceptor>
     </BrowserRouter>
   );

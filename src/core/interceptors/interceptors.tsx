@@ -16,10 +16,14 @@
 import axios, { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IAlert } from '../../reducers/Alert.Reducer';
 
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 
-const AxiosInterceptor = ({ children, dispatchAlert }: any) => {
+const AxiosInterceptor = ({ children, dispatchAlert }: {
+    children: React.ReactElement,
+    dispatchAlert: React.Dispatch<IAlert>
+}) => {
 
     const navigate = useNavigate();
 
