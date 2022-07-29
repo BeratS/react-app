@@ -13,13 +13,11 @@
 //     });
 // }
 
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const instance = axios.create({
-    baseURL:  "https://example.com"
-})
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 
 const AxiosInterceptor = ({ children, dispatchAlert }: any) => {
 
@@ -27,31 +25,51 @@ const AxiosInterceptor = ({ children, dispatchAlert }: any) => {
 
     useEffect(() => {
 
-        console.log('INTERCEPTOR', instance);
+        /**
+         * Request -----------------------------------
+         */
 
-        const resInterceptor = (response: any) => {
-            console.log('-***Interceptor response', response);
+        const reqInterceptor = (response: any) => {
+            const token = localStorage.getItem("token");
+
+            if (token) {
+                response.headers = {
+                    authorization: `Bearer ${token}`
+                };
+            }
             return response;
         }
 
-        const errInterceptor = (error: any) => {
-            console.log('-***Interceptor error', error);
-            if (error.response.status === 401) {
+        // const errReqInterceptor = (error: any) => {}
+
+        /**
+         * Response -----------------------------------
+         */
+        const resInterceptor = (response: any) => response
+
+        const errInterceptor = (error: AxiosError) => {
+            let msg = error?.message || 'Server Error';
+
+            if (error?.response?.status === 401) {
                 navigate('/login');
+                msg = 'Server Error: User is not authenticated';
             }
 
-            dispatchAlert({
-                type: 'error',
-                msg: 'Interceptor Error'
-            });
+            dispatchAlert({ type: 'error', msg });
 
             return Promise.reject(error);
         }
 
+        /**
+         * Axios use interceptors --------------------------
+         */
+        const interceptor = axios.interceptors.request.use(reqInterceptor, errInterceptor);
+        const interceptorResp = axios.interceptors.response.use(resInterceptor, errInterceptor);
 
-        const interceptor = instance.interceptors.response.use(resInterceptor, errInterceptor);
-
-        return () => instance.interceptors.response.eject(interceptor);
+        return () => {
+            axios.interceptors.request.eject(interceptor);
+            axios.interceptors.response.eject(interceptorResp);
+        }
 
     }, [navigate, dispatchAlert])
 
@@ -59,5 +77,5 @@ const AxiosInterceptor = ({ children, dispatchAlert }: any) => {
 }
 
 
-export default instance;
+// export default instance;
 export { AxiosInterceptor };

@@ -5,7 +5,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { Home, GridView, Category, ContactPage } from '@mui/icons-material';
+import { Home, GridView, Category, ContactPage, MoreHoriz } from '@mui/icons-material';
 import { Outlet } from "react-router-dom";
 import './Layout.scss';
 
@@ -29,6 +29,7 @@ const Layout = ({ onClick }: { onClick: () => void }) => {
     { name: 'Blogs', route: '/blogs', icon: <GridView /> },
     { name: 'Products', route: '/products', icon: <Category /> },
     { name: 'Contact', route: '/contact', icon: <ContactPage /> },
+    { name: 'Extra', route: '/extra', icon: <MoreHoriz /> }
   ]);
   const [navActive, setNavActive] = useState<string>('/');
   const location = useLocation();

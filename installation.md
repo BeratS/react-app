@@ -27,6 +27,7 @@ npm i styled-components
 
 # State management
 npm install recoil
+https://recoiljs.org/docs/basic-tutorial/atoms
 
 ## or
 npm install zustand
